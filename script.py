@@ -1,6 +1,15 @@
+#  READING SERIAL
 import serial.tools.list_ports
 import time
 
+#  VOLUME CONTROL
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
+# --------------------------------------------------------------
+
+# READING SERIAL
 serialInst = serial.Serial()
 port = "COM3"
 
@@ -14,6 +23,15 @@ def readSerial():
             packet = serialInst.readline()
             pressed = (packet.decode('utf')).rstrip('\n')
             print(pressed)
+
+
+# VOLUME CONTROL
+
+devices = AudioUtilities.GetSpeakers()
+interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+volume = cast(interface, POINTER(IAudioEndpointVolume))
+
+volume.SetMasterVolumeLevel(0.0, None)
 
 if __name__ == "__main__":
     readSerial()
