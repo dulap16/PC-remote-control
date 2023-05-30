@@ -9,6 +9,13 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 # --------------------------------------------------------------
 
+def assignToFunction(code):
+    if code == "VOL-":
+        print("SET VOLUME DOWN")
+    elif code == "VOL+":
+        print("SET VOLUME UP")
+
+
 # READING SERIAL
 serialInst = serial.Serial()
 port = "COM3"
@@ -23,6 +30,7 @@ def readSerial():
             packet = serialInst.readline()
             pressed = (packet.decode('utf')).rstrip('\n')
             print(pressed)
+            assignToFunction(pressed)
 
 
 # VOLUME CONTROL
@@ -31,7 +39,6 @@ devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
 
-volume.SetMasterVolumeLevel(0.0, None)
 
 if __name__ == "__main__":
     readSerial()
