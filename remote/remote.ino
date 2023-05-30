@@ -109,15 +109,15 @@ void loop(){
           break;
         }
         case 66: {
-          Serial.println(7);
+          Serial.println("7");
           break;
         }
         case 82: {
-          Serial.println(8);
+          Serial.println("8");
           break;
         }
         case 74: {
-          Serial.println(9);
+          Serial.println("9");
           break;
         }
       }
