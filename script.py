@@ -9,12 +9,15 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 # --------------------------------------------------------------
 
+# CONFIG
+ratio = 1
+
 def assignToFunction(code):
     code = code.strip()
     if code == "VOL-":
-        print("SET VOLUME DOWN")
+        changeVolume(ratio * -1)
     elif code == "VOL+":
-        print("SET VOLUME UP")
+        changeVolume(ratio)
 
 
 # READING SERIAL
