@@ -14,6 +14,7 @@ import screen_brightness_control as sbc
 # CONFIG
 selected = 0 
 brightRatio = 5
+currBright = sbc.get_brightness()[0]
 
 def assignToFunction(code):
     code = code.strip()
@@ -48,10 +49,6 @@ def readSerial():
 
 # VOLUME CONTROL
 
-devices = AudioUtilities.GetSpeakers()
-interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-volume = cast(interface, POINTER(IAudioEndpointVolume))
-
 def changeVolume(sign):
 
     if(sign == 1):
@@ -61,29 +58,16 @@ def changeVolume(sign):
         win32api.keybd_event(win32con.VK_VOLUME_DOWN, 0)
         win32api.keybd_event(win32con.VK_VOLUME_DOWN, 0, win32con.KEYEVENTF_KEYUP)
 
-    # ratio = ((currVolume * -1) / 20) * multiplier
-    # math.floor(ratio)
-    # ratio = (ratio + 1) * sign
-
-    # print(ratio)
-    # nextVolume = currVolume + ratio
-    
-    # nextVolume = max(-65.0, nextVolume)
-    # nextVolume = min(0.0, nextVolume)
-
-    # volume.SetMasterVolumeLevel(nextVolume, None)
-    # print(volume.GetMasterVolumeLevel())
-
-
 
 # BRIGHTNESS CONTROL
 
 def changeBrightness(ratio, sign):
-    currBright = sbc.get_brightness()[0]
+    global currBright
     nextBright = currBright + ratio * sign
 
     nextBright = max(0, nextBright)
     nextBright = min(100, nextBright)
+    currBright = nextBright
 
     sbc.set_brightness(nextBright, display = 0)
 
