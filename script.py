@@ -4,6 +4,8 @@ import time
 import math
 
 #  VOLUME CONTROL
+import win32con
+import win32api
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
@@ -58,6 +60,9 @@ volume = cast(interface, POINTER(IAudioEndpointVolume))
 def changeVolume(multiplier, sign):
     currVolume = volume.GetMasterVolumeLevel()
     
+    win32api.keybd_event(win32con.VK_VOLUME_UP, 0)
+    win32api.keybd_event(win32con.VK_VOLUME_UP, 0, win32con.KEYEVENTF_KEYUP)
+
     ratio = ((currVolume * -1) / 20) * multiplier
     math.floor(ratio)
     ratio = (ratio + 1) * sign
@@ -77,8 +82,6 @@ def changeVolume(multiplier, sign):
 def changeBrightness(ratio, sign):
     currBright = sbc.get_brightness()[0]
     nextBright = currBright + ratio * sign
-
-    print(nextBright)
 
     nextBright = max(0, nextBright)
     nextBright = min(100, nextBright)
