@@ -40,8 +40,14 @@ devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
 
+def changeVolume(ratio):
+    currVolume = volume.GetMasterVolumeLevel()
+    nextVolume = currVolume + ratio
+    
+    nextVolume = max(-65.0, nextVolume)
+    nextVolume = min(0.0, nextVolume)
+
+    volume.SetMasterVolumeLevel(nextVolume)
 
 if __name__ == "__main__":
     readSerial()
-
-            
