@@ -8,17 +8,28 @@ from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
+# BRIGHTNESS CONTROL
+import screen_brightness_control as sbc
+
 # --------------------------------------------------------------
 
 # CONFIG
-multiplier = 1.7
+selected = 0 
+brightRatio = 5
+volMultiplier = 1.7
 
 def assignToFunction(code):
     code = code.strip()
     if code == "VOL-":
-        changeVolume(multiplier, -1)
+        changeVolume(volMultiplier, -1)
     elif code == "VOL+":
-        changeVolume(multiplier, 1)
+        changeVolume(volMultiplier, 1)
+    elif code == "PREV":
+        changeBrightness(brightRatio, -1)
+    elif code == "NEXT":
+        changeBrightness(brightRatio, 1)
+    elif code == "EQ":
+        selected = (selected + 1) % 2
 
 
 # READING SERIAL
@@ -44,7 +55,7 @@ devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
 
-def changeVolume(ratio, sign):
+def changeVolume(multiplier, sign):
     currVolume = volume.GetMasterVolumeLevel()
     
     ratio = ((currVolume * -1) / 20) * multiplier
@@ -58,6 +69,22 @@ def changeVolume(ratio, sign):
 
     volume.SetMasterVolumeLevel(nextVolume, None)
     print(volume.GetMasterVolumeLevel())
+
+
+
+# BRIGHTNESS CONTROL
+
+def changeBrightness(ratio, sign):
+    currBright = sbc.get_brightness()[0]
+    nextBright = currBright + ratio * sign
+
+    print(nextBright)
+
+    nextBright = max(0, nextBright)
+    nextBright = min(100, nextBright)
+
+    sbc.set_brightness(nextBright, display = 0)
+
 
 if __name__ == "__main__":
     readSerial()
