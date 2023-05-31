@@ -1,6 +1,7 @@
 #  READING SERIAL
 import serial.tools.list_ports
 import time
+import math
 
 #  VOLUME CONTROL
 from ctypes import cast, POINTER
@@ -10,14 +11,14 @@ from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 # --------------------------------------------------------------
 
 # CONFIG
-ratio = 1
+multiplier = 1.7
 
 def assignToFunction(code):
     code = code.strip()
     if code == "VOL-":
-        changeVolume(ratio * -1)
+        changeVolume(multiplier, -1)
     elif code == "VOL+":
-        changeVolume(ratio)
+        changeVolume(multiplier, 1)
 
 
 # READING SERIAL
@@ -43,14 +44,20 @@ devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
 
-def changeVolume(ratio):
+def changeVolume(ratio, sign):
     currVolume = volume.GetMasterVolumeLevel()
+    
+    ratio = ((currVolume * -1) / 20) * multiplier
+    math.floor(ratio)
+    ratio = (ratio + 1) * sign
+
     nextVolume = currVolume + ratio
     
     nextVolume = max(-65.0, nextVolume)
     nextVolume = min(0.0, nextVolume)
 
-    volume.SetMasterVolumeLevel(nextVolume)
+    volume.SetMasterVolumeLevel(nextVolume, None)
+    print(volume.GetMasterVolumeLevel())
 
 if __name__ == "__main__":
     readSerial()
