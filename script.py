@@ -1,14 +1,10 @@
 #  READING SERIAL
 import serial.tools.list_ports
 import time
-import math
 
 #  VOLUME CONTROL
 import win32con
 import win32api
-from ctypes import cast, POINTER
-from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 # BRIGHTNESS CONTROL
 import screen_brightness_control as sbc
@@ -18,14 +14,13 @@ import screen_brightness_control as sbc
 # CONFIG
 selected = 0 
 brightRatio = 5
-volMultiplier = 1.7
 
 def assignToFunction(code):
     code = code.strip()
     if code == "VOL-":
-        changeVolume(volMultiplier, -1)
+        changeVolume(-1)
     elif code == "VOL+":
-        changeVolume(volMultiplier, 1)
+        changeVolume(1)
     elif code == "PREV":
         changeBrightness(brightRatio, -1)
     elif code == "NEXT":
@@ -57,23 +52,27 @@ devices = AudioUtilities.GetSpeakers()
 interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 volume = cast(interface, POINTER(IAudioEndpointVolume))
 
-def changeVolume(multiplier, sign):
-    currVolume = volume.GetMasterVolumeLevel()
+def changeVolume(sign):
+
+    if(sign == 1):
+        win32api.keybd_event(win32con.VK_VOLUME_UP, 0)
+        win32api.keybd_event(win32con.VK_VOLUME_UP, 0, win32con.KEYEVENTF_KEYUP)
+    else:
+        win32api.keybd_event(win32con.VK_VOLUME_DOWN, 0)
+        win32api.keybd_event(win32con.VK_VOLUME_DOWN, 0, win32con.KEYEVENTF_KEYUP)
+
+    # ratio = ((currVolume * -1) / 20) * multiplier
+    # math.floor(ratio)
+    # ratio = (ratio + 1) * sign
+
+    # print(ratio)
+    # nextVolume = currVolume + ratio
     
-    win32api.keybd_event(win32con.VK_VOLUME_UP, 0)
-    win32api.keybd_event(win32con.VK_VOLUME_UP, 0, win32con.KEYEVENTF_KEYUP)
+    # nextVolume = max(-65.0, nextVolume)
+    # nextVolume = min(0.0, nextVolume)
 
-    ratio = ((currVolume * -1) / 20) * multiplier
-    math.floor(ratio)
-    ratio = (ratio + 1) * sign
-
-    nextVolume = currVolume + ratio
-    
-    nextVolume = max(-65.0, nextVolume)
-    nextVolume = min(0.0, nextVolume)
-
-    volume.SetMasterVolumeLevel(nextVolume, None)
-    print(volume.GetMasterVolumeLevel())
+    # volume.SetMasterVolumeLevel(nextVolume, None)
+    # print(volume.GetMasterVolumeLevel())
 
 
 
