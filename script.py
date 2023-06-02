@@ -46,6 +46,8 @@ def assignToFunction(code):
         changeSensitivity(-5)
     elif code == "200+":
         changeSensitivity(5)
+    elif code == "5":
+        mouseClick()
     elif code == "EQ":
         selected = (selected + 1) % 2
 
@@ -100,7 +102,8 @@ def changeSensitivity(diff):
     moveDistance = max(5, moveDistance)
     moveDistance = min(60, moveDistance)
 
-
+def mouseClick():
+    pyautogui.click(pyautogui.position())
 
 def moveMouseUp(dist):
     print("Move up")
