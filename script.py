@@ -22,6 +22,7 @@ brightRatio = 5
 currBright = sbc.get_brightness()[0]
 
 moveDistance = 5
+moveTime = 0.05
 
 def assignToFunction(code):
     code = code.strip()
@@ -41,6 +42,10 @@ def assignToFunction(code):
         moveMouseLeft(moveDistance)
     elif code == "6":
         moveMouseRight(moveDistance)
+    elif code == "100+":
+        changeSensitivity(-5)
+    elif code == "200+":
+        changeSensitivity(5)
     elif code == "EQ":
         selected = (selected + 1) % 2
 
@@ -88,6 +93,15 @@ async def changeBrightness(ratio, sign):
 
 # MOUSE MOVEMENT
 
+def changeSensitivity(diff):
+    global moveDistance
+
+    moveDistance = moveDistance + diff
+    moveDistance = max(5, moveDistance)
+    moveDistance = min(60, moveDistance)
+
+
+
 def moveMouseUp(dist):
     print("Move up")
     pos = pyautogui.position()
@@ -95,7 +109,7 @@ def moveMouseUp(dist):
     x = pos[0]
     y = pos[1] - dist
 
-    pyautogui.moveTo(x, y)
+    pyautogui.moveTo(x, y, moveTime)
 
 def moveMouseDown(dist):
     print("Move down")
@@ -104,7 +118,7 @@ def moveMouseDown(dist):
     x = pos[0]
     y = pos[1] + dist
 
-    pyautogui.moveTo(x, y)
+    pyautogui.moveTo(x, y, moveTime)
 
 def moveMouseLeft(dist):
     print("Move left")
@@ -113,7 +127,7 @@ def moveMouseLeft(dist):
     x = pos[0] - dist
     y = pos[1] 
 
-    pyautogui.moveTo(x, y)
+    pyautogui.moveTo(x, y, moveTime)
 
 def moveMouseRight(dist):
     print("Move right")
@@ -122,7 +136,7 @@ def moveMouseRight(dist):
     x = pos[0] + dist
     y = pos[1] 
 
-    pyautogui.moveTo(x, y)
+    pyautogui.moveTo(x, y, moveTime)
 
 
 if __name__ == "__main__":
