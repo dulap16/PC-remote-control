@@ -8,11 +8,13 @@ import win32api
 
 # BRIGHTNESS CONTROL
 import screen_brightness_control as sbc
+import asyncio
 
 # --------------------------------------------------------------
 
 # CONFIG
 selected = 0 
+ 
 brightRatio = 5
 currBright = sbc.get_brightness()[0]
 
@@ -23,9 +25,9 @@ def assignToFunction(code):
     elif code == "VOL+":
         changeVolume(1)
     elif code == "PREV":
-        changeBrightness(brightRatio, -1)
+        asyncio.run((changeBrightness(brightRatio, -1)))
     elif code == "NEXT":
-        changeBrightness(brightRatio, 1)
+        asyncio.run((changeBrightness(brightRatio, 1)))
     elif code == "EQ":
         selected = (selected + 1) % 2
 
@@ -35,7 +37,7 @@ serialInst = serial.Serial()
 port = "COM3"
 
 def readSerial():
-    serialInst.baudrate = 9600
+    serialInst.baudrate = 4800
     serialInst.port = port
     serialInst.open()
 
@@ -61,7 +63,7 @@ def changeVolume(sign):
 
 # BRIGHTNESS CONTROL
 
-def changeBrightness(ratio, sign):
+async def changeBrightness(ratio, sign):
     global currBright
     nextBright = currBright + ratio * sign
 
@@ -69,8 +71,7 @@ def changeBrightness(ratio, sign):
     nextBright = min(100, nextBright)
     currBright = nextBright
 
-    sbc.set_brightness(nextBright, display = 0)
-
+    sbc.set_brightness(nextBright, display = 10)    
 
 if __name__ == "__main__":
     readSerial()
