@@ -10,6 +10,9 @@ import win32api
 import screen_brightness_control as sbc
 import asyncio
 
+# MOUSE MOVEMENT
+import pyautogui
+
 # --------------------------------------------------------------
 
 # CONFIG
@@ -17,6 +20,9 @@ selected = 0
  
 brightRatio = 5
 currBright = sbc.get_brightness()[0]
+
+moveDistance = 5
+moveTime = 0.05
 
 def assignToFunction(code):
     code = code.strip()
@@ -28,6 +34,18 @@ def assignToFunction(code):
         asyncio.run((changeBrightness(brightRatio, -1)))
     elif code == "NEXT":
         asyncio.run((changeBrightness(brightRatio, 1)))
+    elif code == "2":
+        moveMouseUp(moveDistance)
+    elif code == "8":
+        moveMouseDown(moveDistance)
+    elif code == "4":
+        moveMouseLeft(moveDistance)
+    elif code == "6":
+        moveMouseRight(moveDistance)
+    elif code == "100+":
+        changeSensitivity(-5)
+    elif code == "200+":
+        changeSensitivity(5)
     elif code == "EQ":
         selected = (selected + 1) % 2
 
@@ -72,6 +90,54 @@ async def changeBrightness(ratio, sign):
     currBright = nextBright
 
     sbc.set_brightness(nextBright, display = 10)    
+
+# MOUSE MOVEMENT
+
+def changeSensitivity(diff):
+    global moveDistance
+
+    moveDistance = moveDistance + diff
+    moveDistance = max(5, moveDistance)
+    moveDistance = min(60, moveDistance)
+
+
+
+def moveMouseUp(dist):
+    print("Move up")
+    pos = pyautogui.position()
+
+    x = pos[0]
+    y = pos[1] - dist
+
+    pyautogui.moveTo(x, y, moveTime)
+
+def moveMouseDown(dist):
+    print("Move down")
+    pos = pyautogui.position()
+
+    x = pos[0]
+    y = pos[1] + dist
+
+    pyautogui.moveTo(x, y, moveTime)
+
+def moveMouseLeft(dist):
+    print("Move left")
+    pos = pyautogui.position()
+
+    x = pos[0] - dist
+    y = pos[1] 
+
+    pyautogui.moveTo(x, y, moveTime)
+
+def moveMouseRight(dist):
+    print("Move right")
+    pos = pyautogui.position()
+
+    x = pos[0] + dist
+    y = pos[1] 
+
+    pyautogui.moveTo(x, y, moveTime)
+
 
 if __name__ == "__main__":
     readSerial()
