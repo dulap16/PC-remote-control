@@ -11,7 +11,7 @@ import screen_brightness_control as sbc
 import asyncio
 
 # MOUSE MOVEMENT
-
+import pyautogui
 
 # --------------------------------------------------------------
 
@@ -20,6 +20,8 @@ selected = 0
  
 brightRatio = 5
 currBright = sbc.get_brightness()[0]
+
+moveDistance = 5
 
 def assignToFunction(code):
     code = code.strip()
@@ -32,7 +34,7 @@ def assignToFunction(code):
     elif code == "NEXT":
         asyncio.run((changeBrightness(brightRatio, 1)))
     elif code == "2":
-        moveMouseUp()
+        moveMouseUp(moveDistance)
     elif code == "8":
         moveMouseDown()
     elif code == "4":
@@ -56,7 +58,7 @@ def readSerial():
         if serialInst.in_waiting:
             packet = serialInst.readline()
             pressed = (packet.decode('utf')).rstrip('\n')
-            print(pressed)
+            # print(pressed)
             assignToFunction(pressed)
 
 
@@ -86,15 +88,22 @@ async def changeBrightness(ratio, sign):
 
 # MOUSE MOVEMENT
 
-def moveMouseUp():
+def moveMouseUp(dist):
     print("Move up")
-def moveMouseDown():
+    pos = pyautogui.position()
+
+    x = pos[0]
+    y = pos[1] - dist
+
+    pyautogui.moveTo(x, y)
+
+def moveMouseDown(dist):
     print("Move down")
-def moveMouseLeft():
+def moveMouseLeft(dist):
     print("Move left")
-def moveMouseRight():
+def moveMouseRight(dist):
     print("Move right")
 
-    
+
 if __name__ == "__main__":
     readSerial()
