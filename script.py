@@ -18,6 +18,8 @@ import pyautogui
 # CONFIG
 selected = 0 
  
+isMuted = False
+
 brightRatio = 5
 currBright = sbc.get_brightness()[0]
 
@@ -49,7 +51,7 @@ def assignToFunction(code):
     elif code == "5":
         mouseClick()
     elif code == "EQ":
-        selected = (selected + 1) % 2
+        muteVolume()
 
 
 # READING SERIAL
@@ -70,6 +72,11 @@ def readSerial():
 
 
 # VOLUME CONTROL
+
+def muteVolume():
+    for i in range(0, 50):
+        win32api.keybd_event(win32con.VK_VOLUME_DOWN, 0)
+        win32api.keybd_event(win32con.VK_VOLUME_DOWN, 0, win32con.KEYEVENTF_KEYUP)
 
 def changeVolume(sign):
 
