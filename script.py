@@ -29,16 +29,22 @@ scrollDist = 50
 
 def assignToFunction(code):
     code = code.strip()
-    if code == "VOL-":
+    
+    # VOLUME CONTROL
+    if code == "VOL-":      
         changeVolume(-1)
     elif code == "VOL+":
         changeVolume(1)
     elif code == "EQ":
         muteVolume()
-    elif code == "PREV":
+    
+    # BRIGHTNESS CONTROL
+    elif code == "PREV":    
         asyncio.run((changeBrightness(brightRatio, -1)))
     elif code == "NEXT":
         asyncio.run((changeBrightness(brightRatio, 1)))
+    
+    # MOUSE MOVEMENT
     elif code == "2":
         moveMouseUp(moveDist)
     elif code == "8":
@@ -47,12 +53,14 @@ def assignToFunction(code):
         moveMouseLeft(moveDist)
     elif code == "6":
         moveMouseRight(moveDist)
-    elif code == "5":
-        mouseClick()
     elif code == "100+":
         changeSensitivity(-5)
     elif code == "200+":
         changeSensitivity(5)
+
+    # OTHER MOUSE FUNCTIONS
+    elif code == "5":
+        mouseClick()
     elif code == "3":
         scroll(scrollDist)
     elif code == "9":
