@@ -36,11 +36,11 @@ def assignToFunction(code):
     elif code == "2":
         moveMouseUp(moveDistance)
     elif code == "8":
-        moveMouseDown()
+        moveMouseDown(moveDistance)
     elif code == "4":
-        moveMouseLeft()
+        moveMouseLeft(moveDistance)
     elif code == "6":
-        moveMouseRight()
+        moveMouseRight(moveDistance)
     elif code == "EQ":
         selected = (selected + 1) % 2
 
@@ -58,7 +58,7 @@ def readSerial():
         if serialInst.in_waiting:
             packet = serialInst.readline()
             pressed = (packet.decode('utf')).rstrip('\n')
-            # print(pressed)
+            print(pressed)
             assignToFunction(pressed)
 
 
@@ -99,10 +99,30 @@ def moveMouseUp(dist):
 
 def moveMouseDown(dist):
     print("Move down")
+    pos = pyautogui.position()
+
+    x = pos[0]
+    y = pos[1] + dist
+
+    pyautogui.moveTo(x, y)
+
 def moveMouseLeft(dist):
     print("Move left")
+    pos = pyautogui.position()
+
+    x = pos[0] - dist
+    y = pos[1] 
+
+    pyautogui.moveTo(x, y)
+
 def moveMouseRight(dist):
     print("Move right")
+    pos = pyautogui.position()
+
+    x = pos[0] + dist
+    y = pos[1] 
+
+    pyautogui.moveTo(x, y)
 
 
 if __name__ == "__main__":
