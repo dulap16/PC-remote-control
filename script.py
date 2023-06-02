@@ -37,7 +37,7 @@ serialInst = serial.Serial()
 port = "COM3"
 
 def readSerial():
-    serialInst.baudrate = 9600
+    serialInst.baudrate = 4800
     serialInst.port = port
     serialInst.open()
 
