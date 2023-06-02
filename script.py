@@ -23,8 +23,9 @@ isMuted = False
 brightRatio = 5
 currBright = sbc.get_brightness()[0]
 
-moveDistance = 5
+moveDist = 5
 moveTime = 0.05
+scrollDist = 50
 
 def assignToFunction(code):
     code = code.strip()
@@ -32,26 +33,33 @@ def assignToFunction(code):
         changeVolume(-1)
     elif code == "VOL+":
         changeVolume(1)
+    elif code == "EQ":
+        muteVolume()
     elif code == "PREV":
         asyncio.run((changeBrightness(brightRatio, -1)))
     elif code == "NEXT":
         asyncio.run((changeBrightness(brightRatio, 1)))
     elif code == "2":
-        moveMouseUp(moveDistance)
+        moveMouseUp(moveDist)
     elif code == "8":
-        moveMouseDown(moveDistance)
+        moveMouseDown(moveDist)
     elif code == "4":
-        moveMouseLeft(moveDistance)
+        moveMouseLeft(moveDist)
     elif code == "6":
-        moveMouseRight(moveDistance)
+        moveMouseRight(moveDist)
+    elif code == "5":
+        mouseClick()
     elif code == "100+":
         changeSensitivity(-5)
     elif code == "200+":
         changeSensitivity(5)
-    elif code == "5":
-        mouseClick()
-    elif code == "EQ":
-        muteVolume()
+    elif code == "3":
+        scroll(scrollDist)
+    elif code == "9":
+        scroll(scrollDist * -1)
+
+    
+    
 
 
 # READING SERIAL
@@ -103,11 +111,14 @@ async def changeBrightness(ratio, sign):
 # MOUSE MOVEMENT
 
 def changeSensitivity(diff):
-    global moveDistance
+    global moveDist
 
-    moveDistance = moveDistance + diff
-    moveDistance = max(5, moveDistance)
-    moveDistance = min(60, moveDistance)
+    moveDist = moveDist + diff
+    moveDist = max(5, moveDist)
+    moveDist = min(60, moveDist)
+
+def scroll(dist):
+    pyautogui.scroll(dist)
 
 def mouseClick():
     pyautogui.click(pyautogui.position())
