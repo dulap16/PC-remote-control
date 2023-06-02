@@ -10,6 +10,9 @@ import win32api
 import screen_brightness_control as sbc
 import asyncio
 
+# MOUSE MOVEMENT
+
+
 # --------------------------------------------------------------
 
 # CONFIG
@@ -28,6 +31,14 @@ def assignToFunction(code):
         asyncio.run((changeBrightness(brightRatio, -1)))
     elif code == "NEXT":
         asyncio.run((changeBrightness(brightRatio, 1)))
+    elif code == "2":
+        moveMouseUp()
+    elif code == "8":
+        moveMouseDown()
+    elif code == "4":
+        moveMouseLeft()
+    elif code == "6":
+        moveMouseRight()
     elif code == "EQ":
         selected = (selected + 1) % 2
 
@@ -73,5 +84,17 @@ async def changeBrightness(ratio, sign):
 
     sbc.set_brightness(nextBright, display = 10)    
 
+# MOUSE MOVEMENT
+
+def moveMouseUp():
+    print("Move up")
+def moveMouseDown():
+    print("Move down")
+def moveMouseLeft():
+    print("Move left")
+def moveMouseRight():
+    print("Move right")
+
+    
 if __name__ == "__main__":
     readSerial()
