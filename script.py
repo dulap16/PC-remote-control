@@ -14,8 +14,10 @@ import asyncio
 
 # CONFIG
 selected = 0 
+ 
 brightRatio = 5
 currBright = sbc.get_brightness()[0]
+currDisplay = 0
 
 def assignToFunction(code):
     code = code.strip()
@@ -27,6 +29,8 @@ def assignToFunction(code):
         asyncio.run((changeBrightness(brightRatio, -1)))
     elif code == "NEXT":
         asyncio.run((changeBrightness(brightRatio, 1)))
+    elif code == "PLAY/PAUSE":
+        changeDisplay()
     elif code == "EQ":
         selected = (selected + 1) % 2
 
@@ -70,7 +74,11 @@ async def changeBrightness(ratio, sign):
     nextBright = min(100, nextBright)
     currBright = nextBright
 
-    sbc.set_brightness(nextBright, display = 0)
+    sbc.set_brightness(nextBright, display = currDisplay)
+
+def changeDisplay():
+    global currDisplay
+    currDisplay = currDisplay + 1
 
 
 if __name__ == "__main__":
