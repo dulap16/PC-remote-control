@@ -62,13 +62,16 @@ def assignToFunction(code):
     elif code == "5":
         mouseClick()
     elif code == "3":
-        scroll(scrollDist)
+        scroll(scrollDist)     
     elif code == "9":
         scroll(scrollDist * -1)
+    
+    # PRESS SPACE
+    elif code == "0":
+        pressSpace()
 
     
     
-
 
 # READING SERIAL
 serialInst = serial.Serial()
@@ -115,6 +118,11 @@ async def changeBrightness(ratio, sign):
     currBright = nextBright
 
     sbc.set_brightness(nextBright, display = 10)    
+
+# PRESS SPACE
+
+def pressSpace():
+    pyautogui.press('space')
 
 # MOUSE MOVEMENT
 
