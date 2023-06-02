@@ -8,6 +8,7 @@ import win32api
 
 # BRIGHTNESS CONTROL
 import screen_brightness_control as sbc
+import asyncio
 
 # --------------------------------------------------------------
 
@@ -23,9 +24,9 @@ def assignToFunction(code):
     elif code == "VOL+":
         changeVolume(1)
     elif code == "PREV":
-        changeBrightness(brightRatio, -1)
+        asyncio.run((changeBrightness(brightRatio, -1)))
     elif code == "NEXT":
-        changeBrightness(brightRatio, 1)
+        asyncio.run((changeBrightness(brightRatio, 1)))
     elif code == "EQ":
         selected = (selected + 1) % 2
 
@@ -61,7 +62,7 @@ def changeVolume(sign):
 
 # BRIGHTNESS CONTROL
 
-def changeBrightness(ratio, sign):
+async def changeBrightness(ratio, sign):
     global currBright
     nextBright = currBright + ratio * sign
 
