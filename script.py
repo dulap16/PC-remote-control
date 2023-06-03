@@ -28,7 +28,7 @@ moveDist = 5
 moveTime = 0.05
 scrollDist = 50
 
-def assignToFunction(code):
+async def assignToFunction(code):
     commandFinished = False
     code = code.strip()
     
@@ -72,7 +72,7 @@ def assignToFunction(code):
     elif code == "0":
         pressSpace()
 
-    commandFinished = commandFinished or True
+    serialInst.flushInput()
 
     
     
@@ -88,14 +88,10 @@ def readSerial():
 
     while True:
         if serialInst.in_waiting:
-            allTextFromSerial = serialInst.read_all().decode('utf')
-            firstLineOfSerial = allTextFromSerial.split('\n')[0]
-
-            # packet = serialInst.readline()
-            # pressed = (packet.decode('utf')).rstrip('\n')
-            print(firstLineOfSerial)
-            # assignToFunction(pressed)
-            # serialInst.read_all()
+            packet = serialInst.readline()
+            pressed = (packet.decode('utf')).rstrip('\n')
+            print(pressed)
+            asyncio.run(assignToFunction(pressed))
 
 
 # VOLUME CONTROL
