@@ -24,12 +24,11 @@ brightRatio = 5
 currBright = sbc.get_brightness()[0]
 
 moveDist = 5
-moveTime = 0.03 * moveDist
+moveTime = 0.02 * moveDist
 scrollDist = 50
 
 async def assignToFunction(code):
-    code = code.strip()
-    
+
     # VOLUME CONTROL
     if code == "VOL-":      
         changeVolume(-1)
@@ -46,13 +45,13 @@ async def assignToFunction(code):
     
     # MOUSE MOVEMENT
     elif code == "2":
-        moveMouseUp(moveDist)
+        moveMouse(0, -moveDist)
     elif code == "8":
-        moveMouseDown(moveDist)
+        moveMouse(0, moveDist)
     elif code == "4":
-        moveMouseLeft(moveDist)
+        moveMouse(-moveDist, 0)
     elif code == "6":
-        moveMouseRight(moveDist)
+        moveMouse(moveDist, 0)
     elif code == "100+":
         changeSensitivity(-5)
     elif code == "200+":
@@ -77,7 +76,7 @@ async def assignToFunction(code):
 
 # READING SERIAL
 serialInst = serial.Serial()
-port = "COM3"
+port = "COM3" 
 
 def readSerial():
     serialInst.baudrate = 4800
@@ -88,7 +87,9 @@ def readSerial():
         if serialInst.in_waiting:
             packet = serialInst.readline()
             pressed = (packet.decode('utf')).rstrip('\n')
+            pressed = pressed.strip()
             print(pressed)
+            
             asyncio.run(assignToFunction(pressed))
 
 
@@ -141,41 +142,8 @@ def scroll(dist):
 def mouseClick():
     pyautogui.click(pyautogui.position())
 
-def moveMouseUp(dist):
-    print("Move up")
-    pos = pyautogui.position()
-
-    x = pos[0]
-    y = pos[1] - dist
-
-    pyautogui.moveTo(x, y, moveTime)
-
-def moveMouseDown(dist):
-    print("Move down")
-    pos = pyautogui.position()
-
-    x = pos[0]
-    y = pos[1] + dist
-
-    pyautogui.moveTo(x, y, moveTime)
-
-def moveMouseLeft(dist):
-    print("Move left")
-    pos = pyautogui.position()
-
-    x = pos[0] - dist
-    y = pos[1] 
-
-    pyautogui.moveTo(x, y, moveTime)
-
-def moveMouseRight(dist):
-    print("Move right")
-    pos = pyautogui.position()
-
-    x = pos[0] + dist
-    y = pos[1] 
-
-    pyautogui.moveTo(x, y, moveTime)
+def moveMouse(x, y):
+    pyautogui.move(x, y, moveTime)
 
 
 if __name__ == "__main__":
