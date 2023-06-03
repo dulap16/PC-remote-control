@@ -41,11 +41,9 @@ def assignToFunction(code):
         muteVolume()
     
     # BRIGHTNESS CONTROL
-    elif code == "PREV":    
-        # asyncio.run((changeBrightness(brightRatio, -1)))
+    elif code == "PREV":
         changeBrightness(brightRatio, -1)
     elif code == "NEXT":
-        # asyncio.run((changeBrightness(brightRatio, 1)))
         changeBrightness(brightRatio, 1)
     
     # MOUSE MOVEMENT
@@ -74,7 +72,7 @@ def assignToFunction(code):
     elif code == "0":
         pressSpace()
 
-    commandFinished = True
+    commandFinished = commandFinished or True
 
     
     
@@ -90,11 +88,14 @@ def readSerial():
 
     while True:
         if serialInst.in_waiting:
-            packet = serialInst.readline()
-            if commandFinished:
-                pressed = (packet.decode('utf')).rstrip('\n')
-                print(pressed)
-                assignToFunction(pressed)
+            allTextFromSerial = serialInst.read_all().decode('utf')
+            firstLineOfSerial = allTextFromSerial.split('\n')[0]
+
+            # packet = serialInst.readline()
+            # pressed = (packet.decode('utf')).rstrip('\n')
+            print(firstLineOfSerial)
+            # assignToFunction(pressed)
+            # serialInst.read_all()
 
 
 # VOLUME CONTROL
