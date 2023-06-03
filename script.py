@@ -136,6 +136,12 @@ def changeSensitivity(diff):
     moveDist = max(5, moveDist)
     moveDist = min(60, moveDist)
 
+    updateMoveTime()
+
+def updateMoveTime():
+    global moveTime
+    moveTime = 0.02 * moveDist
+
 def scroll(dist):
     pyautogui.scroll(dist)
 
