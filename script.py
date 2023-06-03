@@ -16,6 +16,7 @@ import pyautogui
 # --------------------------------------------------------------
 
 # CONFIG
+commandFinished = True
 selected = 0 
  
 isMuted = False
@@ -28,6 +29,7 @@ moveTime = 0.05
 scrollDist = 50
 
 def assignToFunction(code):
+    commandFinished = False
     code = code.strip()
     
     # VOLUME CONTROL
@@ -40,9 +42,11 @@ def assignToFunction(code):
     
     # BRIGHTNESS CONTROL
     elif code == "PREV":    
-        asyncio.run((changeBrightness(brightRatio, -1)))
+        # asyncio.run((changeBrightness(brightRatio, -1)))
+        changeBrightness(brightRatio, -1)
     elif code == "NEXT":
-        asyncio.run((changeBrightness(brightRatio, 1)))
+        # asyncio.run((changeBrightness(brightRatio, 1)))
+        changeBrightness(brightRatio, 1)
     
     # MOUSE MOVEMENT
     elif code == "2":
@@ -70,6 +74,8 @@ def assignToFunction(code):
     elif code == "0":
         pressSpace()
 
+    commandFinished = True
+
     
     
 
@@ -85,9 +91,10 @@ def readSerial():
     while True:
         if serialInst.in_waiting:
             packet = serialInst.readline()
-            pressed = (packet.decode('utf')).rstrip('\n')
-            print(pressed)
-            assignToFunction(pressed)
+            if commandFinished:
+                pressed = (packet.decode('utf')).rstrip('\n')
+                print(pressed)
+                assignToFunction(pressed)
 
 
 # VOLUME CONTROL
@@ -109,7 +116,7 @@ def changeVolume(sign):
 
 # BRIGHTNESS CONTROL
 
-async def changeBrightness(ratio, sign):
+def changeBrightness(ratio, sign):
     global currBright
     nextBright = currBright + ratio * sign
 
