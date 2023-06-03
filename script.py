@@ -16,7 +16,6 @@ import pyautogui
 # --------------------------------------------------------------
 
 # CONFIG
-commandFinished = True
 selected = 0 
  
 isMuted = False
@@ -25,11 +24,10 @@ brightRatio = 5
 currBright = sbc.get_brightness()[0]
 
 moveDist = 5
-moveTime = 0.05
+moveTime = 0.03 * moveDist
 scrollDist = 50
 
 async def assignToFunction(code):
-    commandFinished = False
     code = code.strip()
     
     # VOLUME CONTROL
