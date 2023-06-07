@@ -77,7 +77,7 @@ def assignToFunction(code):
 
     # SWITCHING WINDOWS
     elif code == "CH":
-        windowSwitcher.startSwitchingWindows()
+        windowSwitcher.modeSwitched()
     elif code == "CH+":
         windowSwitcher.goToNextWindow()
     elif code == "CH-":
@@ -221,6 +221,12 @@ class WindowSwitcher:
         self.currentHandler = None
         self.apps = None
     
+    def modeSwitched(self):
+        if self.switchingWindowsActivated is False:
+            self.startSwitchingWindows()
+        else:
+            self.endSwitchingWindows()
+
     def startSwitchingWindows(self):
         self.index = 0
         self.windowManager = WindowMgr()
