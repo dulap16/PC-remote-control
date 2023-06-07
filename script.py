@@ -73,8 +73,6 @@ def assignToFunction(code):
     elif code == "9":
         scroll(scrollDist * -1)
 
-    
-    
 
 
 # READING SERIAL
@@ -223,14 +221,18 @@ class WindowSwitcher:
 
     def goToNextWindow(self):
         self.index = (self.index + 1) % self.howManyApps
-        self.currentHandler = self.apps[self.index]
+        
+        self.selectWindowByIndex(self.index)
     
     def goToPreviousWindow(self):
         self.index = self.index - 1
         if self.index < 0:
             self.index = self.howManyApps - 1
 
-        self.currentHandler = self.apps[self.index]
+        self.selectWindowByIndex(self.index)
+    
+    def selectWindowByIndex(self, index)
+        self.currentHandler = self.apps[index]
     
     def endSwitchingWindows(self):
         self.switchingWindowsActivated = False
