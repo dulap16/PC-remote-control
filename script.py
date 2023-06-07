@@ -227,6 +227,8 @@ class WindowSwitcher:
         self.apps = self.windowManager.getApps()
 
         self.howManyApps = self.apps.count
+        self.printWindows()
+
         self.switchingWindowsActivated = True 
 
     def goToNextWindow(self):
@@ -242,13 +244,17 @@ class WindowSwitcher:
         self.selectWindowByIndex(self.index)
     
     def selectWindowByIndex(self, index):
-        self.currentHandler = self.apps[index]
+        self.currentHandler = self.apps[index][0]
         
         self.windowManager.setWindowActive(self.currentHandler)
-
     
     def endSwitchingWindows(self):
         self.switchingWindowsActivated = False
+
+    def printWindows(self):
+        print(self.howManyApps, " windows active:")
+        for app in self.apps:
+            print(app[1])
 
 
 if __name__ == "__main__":
