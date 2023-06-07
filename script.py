@@ -198,10 +198,22 @@ class WindowMgr:
     def set_foreground(self):
         """put the window in the foreground"""
         win32gui.SetForegroundWindow(self._handle)
+    
+
+def window_enum_handler(hwnd, resultList):
+    if win32gui.IsWindowVisible(hwnd) and win32gui.GetWindowText(hwnd) != '':
+        resultList.append((hwnd, win32gui.GetWindowText(hwnd)))
+
+def get_app_list(handles=[]):
+    mlst=[]
+    win32gui.EnumWindows(window_enum_handler, handles)
+    for handle in handles:
+        mlst.append(handle)
+    return mlst
 
 if __name__ == "__main__":
-    w = WindowMgr()
-    w.find_window_wildcard("Spotify")
-    time.sleep(1)
-    w.set_foreground()
+    appwindows = get_app_list()
+    for i in appwindows:
+        print(i)
+
     readSerial()
