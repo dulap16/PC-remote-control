@@ -204,23 +204,5 @@ class WindowMgr:
         return mlst
     
 
-
-
 if __name__ == "__main__":
-    windowManager = WindowMgr()
-    appWindows = windowManager.get_app_list()
-    shell = win32com.client.Dispatch("WScript.Shell")
-    for i in appWindows:
-        try:
-            shell.SendKeys('%')
-            print(i[1], " sent to the front.")
-
-            win32gui.SetForegroundWindow(i[0])
-            win32gui.BringWindowToTop(i[0])
-            win32gui.ShowWindow(i[0], win32con.SW_MAXIMIZE)
-            time.sleep(1)
-        except:
-            print("%a can't be set as foreground", i[1])
-    
-
     readSerial()
