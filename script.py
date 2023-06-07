@@ -183,7 +183,7 @@ class WindowMgr:
         self._hwnd = None
         self.shell = win32com.client.Dispatch("WScript.Shell")
 
-    def set_window_active(self, hwnd):
+    def setWindowActive(self, hwnd):
         shell.SendKeys('%')
         print(i[1], " sent to the front.")
 
@@ -192,13 +192,13 @@ class WindowMgr:
         win32gui.ShowWindow(i[0], win32con.SW_MAXIMIZE)
 
     
-    def window_enum_handler(self, hwnd, resultList):
+    def windowEnumHandler(self, hwnd, resultList):
         if win32gui.IsWindowVisible(hwnd) and win32gui.GetWindowText(hwnd) != '':
             resultList.append((hwnd, win32gui.GetWindowText(hwnd)))
 
-    def get_app_list(self, handles=[]):
+    def getAppList(self, handles=[]):
         mlst=[]
-        win32gui.EnumWindows(self.window_enum_handler, handles)
+        win32gui.EnumWindows(self.windowEnumHandler, handles)
         for handle in handles:
             mlst.append(handle)
         return mlst
