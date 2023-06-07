@@ -226,7 +226,7 @@ class WindowSwitcher:
         self.windowManager = WindowMgr()
         self.apps = self.windowManager.getApps()
 
-        self.howManyApps = self.apps.count
+        self.howManyApps = len(self.apps)
         self.printWindows()
 
         self.switchingWindowsActivated = True 
