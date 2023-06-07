@@ -231,8 +231,11 @@ class WindowSwitcher:
 
         self.selectWindowByIndex(self.index)
     
-    def selectWindowByIndex(self, index)
+    def selectWindowByIndex(self, index):
         self.currentHandler = self.apps[index]
+        
+        self.windowManager.setWindowActive(self.currentHandler)
+
     
     def endSwitchingWindows(self):
         self.switchingWindowsActivated = False
