@@ -13,6 +13,9 @@ import asyncio
 # MOUSE MOVEMENT
 import pyautogui
 
+# SWITCHING WINDOWS
+import win32gui
+
 # --------------------------------------------------------------
 
 # CONFIG
@@ -168,5 +171,11 @@ def moveMouseRight(dist):
     pyautogui.moveTo(x, y, moveTime)
 
 
+# SWITCHING WINDOWS
+
+def my_callback(hwnd, cookie):
+    print(hwnd)
+
 if __name__ == "__main__":
+    print(win32gui.FindWindow(None, ""))
     readSerial()
