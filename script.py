@@ -232,21 +232,27 @@ class WindowSwitcher:
         self.switchingWindowsActivated = True 
 
     def goToNextWindow(self):
-        self.index = (self.index + 1) % self.howManyApps
-        
-        self.selectWindowByIndex(self.index)
+        if self.switchingWindowsActivated is True:
+            self.index = (self.index + 1) % self.howManyApps
+            
+            self.selectWindowByIndex(self.index)
     
     def goToPreviousWindow(self):
-        self.index = self.index - 1
-        if self.index < 0:
-            self.index = self.howManyApps - 1
+        if self.switchingWindowsActivated is True:
+            self.index = self.index - 1
+            if self.index < 0:
+                self.index = self.howManyApps - 1
 
-        self.selectWindowByIndex(self.index)
+            self.selectWindowByIndex(self.index)
     
     def selectWindowByIndex(self, index):
-        self.currentHandler = self.apps[index][0]
-        
-        self.windowManager.setWindowActive(self.currentHandler)
+        prev = self.currentHandler
+        try:
+            self.currentHandler = self.apps[index][0]
+            
+            self.windowManager.setWindowActive(self.currentHandler)
+        except:
+            self.currnetHandler = prev
     
     def endSwitchingWindows(self):
         self.switchingWindowsActivated = False
