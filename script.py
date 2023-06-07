@@ -202,39 +202,38 @@ class WindowMgr:
         return mlst
 
 
-index =  0
-howManyApps = 0
-switchingWindowsActivated = False
-apps = None
-windowManager = None
+class WindowSwitcher:
 
-def startSwitchingWindows():
-    windowManager = WindowMgr()
-    apps = windowManager.getApps()
+    def __init__(self):
+        self.index = 0
+        self.howManyApps = 0
+        self.switchingWindowsActivated = False
+        
+        self.windowManager = None
+        self.currentHandler = None
+        self.apps = None
+    
+    def startSwitchingWindows(self):
+        self.index = 0
+        self.windowManager = WindowMgr()
+        self.apps = self.windowManager.getApps()
 
-    howmany = apps.count
+        self.howManyApps = self.apps.count
+        self.switchingWindowsActivated = True 
 
-    switchingWindowsActivated = True
+    def goToNextWindow(self):
+        self.index = (self.index + 1) % self.howManyApps
+        self.currentHandler = self.apps[self.index]
+    
+    def goToPreviousWindow(self):
+        self.index = self.index - 1
+        if self.index < 0:
+            self.index = self.howManyApps - 1
 
-def goToNextWindow():
-    index = index + 1
-    index = index % howManyApps
-
-    currentHandler = apps
-
-def goToPreviousWindow():
-    index = index - 1
-    if index < 0:
-        index = howManyApps
-
-def selectWindowByIndex(i):
-
-
-def endSwitchingWindows():
-    index = 0
-    howManyApps = 0 
-
-    switchingWindowsActivated = False
+        self.currentHandler = self.apps[self.index]
+    
+    def endSwitchingWindows(self):
+        self.switchingWindowsActivated = False
 
 
 if __name__ == "__main__":
