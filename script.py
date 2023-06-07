@@ -205,6 +205,9 @@ class WindowMgr:
 index =  0
 howManyApps = 0
 switchingWindowsActivated = False
+apps = None
+windowManager = None
+
 def startSwitchingWindows():
     windowManager = WindowMgr()
     apps = windowManager.getApps()
@@ -217,10 +220,15 @@ def goToNextWindow():
     index = index + 1
     index = index % howManyApps
 
+    currentHandler = apps
+
 def goToPreviousWindow():
     index = index - 1
     if index < 0:
         index = howManyApps
+
+def selectWindowByIndex(i):
+
 
 def endSwitchingWindows():
     index = 0
