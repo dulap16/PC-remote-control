@@ -78,9 +78,9 @@ def assignToFunction(code):
     # SWITCHING WINDOWS
     elif code == "CH":
         windowSwitcher.startSwitchingWindows()
-    elif code == "CH-":
-        windowSwitcher.goToNextWindow()
     elif code == "CH+":
+        windowSwitcher.goToNextWindow()
+    elif code == "CH-":
         windowSwitcher.goToPreviousWindow()
 
 
