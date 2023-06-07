@@ -178,11 +178,20 @@ def moveMouseRight(dist):
 # SWITCHING WINDOWS
 
 class WindowMgr:
-
+    """Encapsulates some calls to the winapi for window management"""
     def __init__(self):
         self._hwnd = None
+        self.shell = win32com.client.Dispatch("WScript.Shell")
 
-    """Encapsulates some calls to the winapi for window management"""
+    def set_window_active(self, hwnd):
+        shell.SendKeys('%')
+        print(i[1], " sent to the front.")
+
+        win32gui.SetForegroundWindow(i[0])
+        win32gui.BringWindowToTop(i[0])
+        win32gui.ShowWindow(i[0], win32con.SW_MAXIMIZE)
+
+    
     def window_enum_handler(self, hwnd, resultList):
         if win32gui.IsWindowVisible(hwnd) and win32gui.GetWindowText(hwnd) != '':
             resultList.append((hwnd, win32gui.GetWindowText(hwnd)))
@@ -208,7 +217,6 @@ if __name__ == "__main__":
 
             win32gui.SetForegroundWindow(i[0])
             win32gui.BringWindowToTop(i[0])
-            # win32gui.ShowWindow(i[0], win32con.SW_MAXIMIZE)
             win32gui.ShowWindow(i[0], win32con.SW_MAXIMIZE)
             time.sleep(1)
         except:
