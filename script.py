@@ -34,6 +34,8 @@ moveDist = 5
 moveTime = 0.05
 scrollDist = 50
 
+windowSwitcher = None
+
 def assignToFunction(code):
     code = code.strip()
     
@@ -72,6 +74,14 @@ def assignToFunction(code):
         scroll(scrollDist)
     elif code == "9":
         scroll(scrollDist * -1)
+
+    # SWITCHING WINDOWS
+    elif code == "CH":
+        windowSwitcher.startSwitchingWindows()
+    elif code == "CH-":
+        windowSwitcher.goToNextWindow()
+    elif code == "CH+":
+        windowSwitcher.goToPreviousWindow()
 
 
 
@@ -242,4 +252,5 @@ class WindowSwitcher:
 
 
 if __name__ == "__main__":
+    windowSwitcher = WindowSwitcher()
     readSerial()
