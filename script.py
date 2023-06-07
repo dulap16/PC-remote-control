@@ -214,6 +214,11 @@ def get_app_list(handles=[]):
 if __name__ == "__main__":
     appwindows = get_app_list()
     for i in appwindows:
-        print(i)
+        try:
+            win32gui.SetForegroundWindow(i[0])
+            time.sleep(1)
+        except:
+            print("%a can't be set as foreground", i[1])
+    
 
     readSerial()
