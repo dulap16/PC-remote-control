@@ -14,11 +14,6 @@ import asyncio
 import pyautogui
 
 # SWITCHING WINDOWS
-import win32gui
-import win32com
-import win32com.client
-
-import re
 
 # --------------------------------------------------------------
 
@@ -34,6 +29,8 @@ currBright = sbc.get_brightness()[0]
 moveDist = 5
 moveTime = 0.05
 scrollDist = 50
+
+switchingManager = None
 
 async def assignToFunction(code):
     commandFinished = False
@@ -78,6 +75,15 @@ async def assignToFunction(code):
     # PRESS SPACE
     elif code == "0":
         pressSpace()
+
+    # SWITCHING TABS
+    elif code == "CH":
+        switchingManager.modeSwitched()
+    elif code == "CH+":
+        switchingManager.nextTab()
+    elif code == "CH-":
+        switchingManager.previousTab()
+
 
     serialInst.flushInput()
 
@@ -186,35 +192,43 @@ def moveMouseRight(dist):
 
     pyautogui.moveTo(x, y, moveTime)
 
-
 # SWITCHING WINDOWS
 
-class WindowMgr:
-    """Encapsulates some calls to the winapi for window management"""
+class SwitchingManager:
+
     def __init__(self):
-        self._hwnd = None
-        self.shell = win32com.client.Dispatch("WScript.Shell")
+        self.switchingOn = False
 
-    def setWindowActive(self, hwnd):
-        shell.SendKeys('%')
-        print(i[1], " sent to the front.")
+    def modeSwitched(self):
+        if self.switchingOn is False:
+            self.startSwitching()
+        else:
+            self.endSwitching()
 
-        win32gui.SetForegroundWindow(i[0])
-        win32gui.BringWindowToTop(i[0])
-        win32gui.ShowWindow(i[0], win32con.SW_MAXIMIZE)
+    def startSwitching(self):
+        self.switchingOn = True
 
+        pyautogui.keyDown('alt')
+        self.activateInterface()
     
-    def windowEnumHandler(self, hwnd, resultList):
-        if win32gui.IsWindowVisible(hwnd) and win32gui.GetWindowText(hwnd) != '':
-            resultList.append((hwnd, win32gui.GetWindowText(hwnd)))
+    def endSwitching(self):
+        self.switchingOn = False
 
-    def getAppList(self, handles=[]):
-        mlst=[]
-        win32gui.EnumWindows(self.windowEnumHandler, handles)
-        for handle in handles:
-            mlst.append(handle)
-        return mlst
+        pyautogui.keyUp('alt')
+
+    def activateInterface(self):
+        self.nextTab()
+        self.previousTab()
+
+    def nextTab(self):
+        if self.switchingOn is True:
+            pyautogui.press('tab') 
     
+    def previousTab(self):                                  
+        if self.switchingOn is True:
+            pyautogui.hotkey('shiftleft', 'tab')
+
 
 if __name__ == "__main__":
+    switchingManager = SwitchingManager()
     readSerial()
