@@ -222,11 +222,11 @@ class SwitchingManager:
 
     def nextTab(self):
         if self.switchingOn is True:
-            pyautogui.press('tab')
+            pyautogui.press('tab') 
     
-    def previousTab(self):
+    def previousTab(self):                                  
         if self.switchingOn is True:
-            with pyautogui.hold('ctrlleft'):
+            with pyautogui.hold('shiftleft'):
                 pyautogui.press('tab')
 
 
