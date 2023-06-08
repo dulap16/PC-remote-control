@@ -209,11 +209,16 @@ class SwitchingManager:
         self.switchingOn = True
 
         pyautogui.keyDown('alt')
+        self.activateInterface()
     
     def endSwitching(self):
         self.switchingOn = False
 
         pyautogui.keyUp('alt')
+
+    def activateInterface(self):
+        self.nextTab()
+        self.previousTab()
 
     def nextTab(self):
         if self.switchingOn is True:
