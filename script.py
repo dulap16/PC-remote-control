@@ -30,6 +30,8 @@ moveDist = 5
 moveTime = 0.05
 scrollDist = 50
 
+switchingManager = None
+
 async def assignToFunction(code):
     commandFinished = False
     code = code.strip()
@@ -213,4 +215,5 @@ class SwitchingManager:
 
 
 if __name__ == "__main__":
+    switchingManager = SwitchingManager()
     readSerial()
