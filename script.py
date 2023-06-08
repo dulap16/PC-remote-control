@@ -215,12 +215,14 @@ class SwitchingManager:
 
         pyautogui.keyUp('alt')
 
-    def nextTab():
-        pyautogui.press('tab')
-    
-    def previousTab():
-        with pyautogui.hold('ctrlleft'):
+    def nextTab(self):
+        if self.switchingOn is True:
             pyautogui.press('tab')
+    
+    def previousTab(self):
+        if self.switchingOn is True:
+            with pyautogui.hold('ctrlleft'):
+                pyautogui.press('tab')
 
 
 if __name__ == "__main__":
