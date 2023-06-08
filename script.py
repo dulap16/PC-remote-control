@@ -183,6 +183,27 @@ def moveMouseRight(dist):
 
 # SWITCHING WINDOWS
 
+class SwitchingManager:
+
+    def __init__(self):
+        self.switchingOn = False
+
+    def modeSwitched(self):
+        if self.switchingOn is False:
+            self.startSwitching()
+        else:
+            self.endSwitching()
+
+    def startSwitching(self):
+        self.switchingOn = True
+
+        pyautogui.keyDown('alt')
+    
+    def endSwitching(self):
+        self.switchingOn = False
+
+        pyautogui.keyUp('alt')
+
 
 if __name__ == "__main__":
     readSerial()
