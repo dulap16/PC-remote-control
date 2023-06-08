@@ -204,6 +204,13 @@ class SwitchingManager:
 
         pyautogui.keyUp('alt')
 
+    def nextTab():
+        pyautogui.press('tab')
+    
+    def previousTab():
+        with pyautogui.hold('ctrlleft'):
+            pyautogui.press('tab')
+
 
 if __name__ == "__main__":
     readSerial()
