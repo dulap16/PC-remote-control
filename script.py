@@ -183,12 +183,13 @@ def moveMouseRight(dist):
     pyautogui.moveTo(x, y, moveTime)
 
 
-# SWITCHING WINDOWS
+# SWITCHING WINDOWS 
 
 class WindowMgr:
     """Encapsulates some calls to the winapi for window management"""
     def __init__(self):
         self.shell = win32com.client.Dispatch("WScript.Shell")
+        self.mlst = []
 
     def setWindowActive(self, hwnd):
         self.shell.SendKeys('%')
@@ -203,16 +204,18 @@ class WindowMgr:
             resultList.append((hwnd, win32gui.GetWindowText(hwnd)))
 
     def getApps(self, handles=[]):
-        mlst=[]
+        self.mlst.clear()
         win32gui.EnumWindows(self.windowEnumHandler, handles)
         for handle in handles:
-            mlst.append(handle)
-        return mlst
+            self.mlst.append(handle)
+        return self.mlst
 
 
 class WindowSwitcher:
 
     def __init__(self):
+        print("initialize")
+
         self.index = 0
         self.howManyApps = 0
         self.switchingWindowsActivated = False
@@ -261,7 +264,7 @@ class WindowSwitcher:
             self.currnetHandler = prev
     
     def endSwitchingWindows(self):
-        self.switchingWindowsActivated = False
+        self.__init__()
 
     def printWindows(self):
         print(self.howManyApps, " windows active:")
