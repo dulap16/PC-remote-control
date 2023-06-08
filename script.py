@@ -76,6 +76,15 @@ async def assignToFunction(code):
     elif code == "0":
         pressSpace()
 
+    # SWITCHING TABS
+    elif code == "CH":
+        switchingManager.modeSwitched()
+    elif code == "CH+":
+        switchingManager.nextTab()
+    elif code == "CH-":
+        switchingManager.previousTab()
+
+
     serialInst.flushInput()
 
     
