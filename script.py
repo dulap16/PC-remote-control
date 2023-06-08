@@ -14,11 +14,6 @@ import asyncio
 import pyautogui
 
 # SWITCHING WINDOWS
-import win32gui
-import win32com
-import win32com.client
-
-import re
 
 # --------------------------------------------------------------
 
@@ -186,35 +181,8 @@ def moveMouseRight(dist):
 
     pyautogui.moveTo(x, y, moveTime)
 
-
 # SWITCHING WINDOWS
 
-class WindowMgr:
-    """Encapsulates some calls to the winapi for window management"""
-    def __init__(self):
-        self._hwnd = None
-        self.shell = win32com.client.Dispatch("WScript.Shell")
-
-    def setWindowActive(self, hwnd):
-        shell.SendKeys('%')
-        print(i[1], " sent to the front.")
-
-        win32gui.SetForegroundWindow(i[0])
-        win32gui.BringWindowToTop(i[0])
-        win32gui.ShowWindow(i[0], win32con.SW_MAXIMIZE)
-
-    
-    def windowEnumHandler(self, hwnd, resultList):
-        if win32gui.IsWindowVisible(hwnd) and win32gui.GetWindowText(hwnd) != '':
-            resultList.append((hwnd, win32gui.GetWindowText(hwnd)))
-
-    def getAppList(self, handles=[]):
-        mlst=[]
-        win32gui.EnumWindows(self.windowEnumHandler, handles)
-        for handle in handles:
-            mlst.append(handle)
-        return mlst
-    
 
 if __name__ == "__main__":
     readSerial()
